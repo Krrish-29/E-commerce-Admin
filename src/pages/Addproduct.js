@@ -136,17 +136,8 @@ const Addproduct = () => {
     });
   });
 
-  useEffect(() => {
-    let newImages = [];
-    imgState?.forEach((i) => {
-      newImages.push({
-        public_id: i.public_id,
-        url: i.url,
-      });
-    });
-    formik.setFieldValue("images", newImages);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imgState]);
+  // Removed useEffect that was trying to sync imgState to formik
+  // We now handle this directly in onSubmit to avoid race conditions with enableReinitialize
 
   const imgshow = productImages?.map((i) => ({
     public_id: i.public_id,
@@ -171,12 +162,19 @@ const Addproduct = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      console.log(values);
+      // Manually construct images array from Redux state to ensure it's up to date
+      const finalImages = imgState.map((i) => ({
+        public_id: i.public_id,
+        url: i.url,
+      }));
+
+      const payload = { ...values, images: finalImages };
+
       if (getProductId !== undefined) {
-        const data = { id: getProductId, productData: values };
+        const data = { id: getProductId, productData: payload };
         dispatch(updateAProduct(data));
       } else {
-        dispatch(createProducts(values));
+        dispatch(createProducts(payload));
         formik.resetForm();
         setColor([]);
         setTimeout(() => {
@@ -188,7 +186,6 @@ const Addproduct = () => {
   });
   const handleColors = (e) => {
     setColor(e);
-    console.log(color);
   };
 
   return (
@@ -336,7 +333,7 @@ const Addproduct = () => {
             </Dropzone>
           </div>
           <div className="showimages d-flex flex-wrap gap-3">
-            {imgshow?.map((i, j) => {
+            {imgState?.map((i, j) => {
               return (
                 <div className=" position-relative" key={j}>
                   <button
@@ -345,21 +342,7 @@ const Addproduct = () => {
                     className="btn-close position-absolute"
                     style={{ top: "10px", right: "10px" }}
                   ></button>
-                  <img src={i.url.startsWith("/") ? `${process.env.REACT_APP_API_BASE_URL}${i.url}` : i.url} alt="" width={200} height={200} />
-                </div>
-              );
-            })}
-            {imgState?.map((i, j) => {
-              return (
-                <div className=" position-relative" key={j}>
-                  <button
-                    type="button"
-                    onClick={() => dispatch(delImg(i.public_id))}
-
-                    className="btn-close position-absolute"
-                    style={{ top: "10px", right: "10px", backgroundColor: "red" }}
-                  ></button>
-                  <img src={i.url.startsWith("/") ? `${process.env.REACT_APP_API_BASE_URL}${i.url}` : i.url} alt="" width={200} height={200} />
+                  <img src={i.url} alt="" width={200} height={200} />
                 </div>
               );
             })}
