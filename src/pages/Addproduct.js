@@ -139,10 +139,6 @@ const Addproduct = () => {
   // Removed useEffect that was trying to sync imgState to formik
   // We now handle this directly in onSubmit to avoid race conditions with enableReinitialize
 
-  const imgshow = productImages?.map((i) => ({
-    public_id: i.public_id,
-    url: i.url,
-  })) || [];
 
   useEffect(() => {
     formik.setFieldValue("color", color ? color : []);
