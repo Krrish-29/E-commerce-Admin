@@ -18,6 +18,7 @@ const ViewEnq = () => {
 
   useEffect(() => {
     dispatch(getAEnquiry(getEnqId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getEnqId]);
   const goBack = () => {
     navigate(-1);

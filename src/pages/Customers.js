@@ -26,6 +26,7 @@ const Customers = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUsers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const customerstate = useSelector((state) => state.customer.customers);
   const data1 = [];

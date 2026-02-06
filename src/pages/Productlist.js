@@ -52,6 +52,7 @@ const Productlist = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProducts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const productState = useSelector((state) => state?.product?.products);
   const data1 = [];

@@ -55,6 +55,7 @@ const Enquiries = () => {
   useEffect(() => {
     dispatch(resetState());
     dispatch(getEnquiries());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const enqState = useSelector((state) => state.enquiry.enquiries);
   const data1 = [];

@@ -43,6 +43,7 @@ const Categorylist = () => {
   useEffect(() => {
     dispatch(resetState());
     dispatch(getCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const pCatStat = useSelector((state) => state.pCategory.pCategories);
   const data1 = [];

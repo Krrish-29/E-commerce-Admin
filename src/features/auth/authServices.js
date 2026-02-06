@@ -1,5 +1,5 @@
 import axios from "axios";
-import { config } from "../../utils/axiosconfig";
+// import { config } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 
 // const getTokenFromLocalStorage = localStorage.get("user")
@@ -23,9 +23,8 @@ const getConfig = () => {
     : null;
   return {
     headers: {
-      Authorization: `Bearer ${
-        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-      }`,
+      Authorization: `Bearer ${getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+        }`,
       Accept: "application/json",
     },
   };

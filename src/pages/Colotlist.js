@@ -36,6 +36,7 @@ const Colorlist = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getColors());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const colorState = useSelector((state) => state.color.colors);
   const data1 = [];
