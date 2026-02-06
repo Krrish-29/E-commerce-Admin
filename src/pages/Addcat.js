@@ -34,6 +34,7 @@ const Addcat = () => {
     } else {
       dispatch(resetState());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPCatId]);
   useEffect(() => {
     if (isSuccess && createdCategory) {
@@ -46,6 +47,7 @@ const Addcat = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError, isLoading]);
   const formik = useFormik({
     enableReinitialize: true,

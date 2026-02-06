@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BsArrowDownRight, BsArrowUpRight } from "react-icons/bs";
+// import { BsArrowDownRight, BsArrowUpRight } from "react-icons/bs";
 import { Column } from "@ant-design/plots";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,9 +54,8 @@ const Dashboard = () => {
 
   const config3 = {
     headers: {
-      Authorization: `Bearer ${
-        getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
-      }`,
+      Authorization: `Bearer ${getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+        }`,
       Accept: "application/json",
     },
   };
@@ -65,6 +64,7 @@ const Dashboard = () => {
     dispatch(getMonthlyData(config3));
     dispatch(getYearlyData(config3));
     dispatch(getOrders(config3));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const Dashboard = () => {
       });
     }
     setOrderData(data1);
-  }, [monthlyDataState, yearlyDataState]);
+  }, [monthlyDataState, yearlyDataState, orderState]);
 
   const config = {
     data: dataMonthly,

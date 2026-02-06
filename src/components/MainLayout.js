@@ -7,15 +7,15 @@ import {
   AiOutlineBgColors,
   AiOutlineLogout,
 } from "react-icons/ai";
-import { RiCouponLine } from "react-icons/ri";
+// import { RiCouponLine } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { ImBlog } from "react-icons/im";
-import { useDispatch, useSelector } from "react-redux";
-import { IoIosNotifications } from "react-icons/io";
-import { FaClipboardList, FaBloggerB } from "react-icons/fa";
+// import { ImBlog } from "react-icons/im";
+import { useSelector } from "react-redux";
+// import { IoIosNotifications } from "react-icons/io";
+import { FaClipboardList } from "react-icons/fa";
 import { BiCategoryAlt } from "react-icons/bi";
 import { Layout, Menu, theme } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -150,7 +150,7 @@ const MainLayout = () => {
           )}
           <div className="d-flex gap-4 align-items-center">
             <div className="d-flex gap-3 align-items-center dropdown">
-                <h5 className="mb-0"></h5>
+                {/* <h5 className="mb-0"></h5> */}
                 <p className="mb-0">Welcome {authState?.user?.email}</p>
             </div>
           </div>

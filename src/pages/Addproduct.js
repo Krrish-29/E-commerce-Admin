@@ -18,7 +18,7 @@ import {
   resetState,
   updateAProduct,
 } from "../features/product/productSlice";
-import { base_url } from "../utils/baseUrl";
+// import { base_url } from "../utils/baseUrl";
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
@@ -38,11 +38,12 @@ const Addproduct = () => {
   const getProductId = location.pathname.split("/")[3];
   const navigate = useNavigate();
   const [color, setColor] = useState([]);
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
   const [htmlView, setHtmlView] = useState(false);
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getColors());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const catState = useSelector((state) => state.pCategory.pCategories);
@@ -58,7 +59,7 @@ const Addproduct = () => {
     productName,
     productDesc,
     productPrice,
-    productBrand,
+    // productBrand,
     productCategory,
     productTag,
     productColors,
@@ -72,6 +73,7 @@ const Addproduct = () => {
     } else {
       dispatch(resetState());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getProductId]);
   useEffect(() => {
     if (isSuccess && createdProduct) {
@@ -84,6 +86,7 @@ const Addproduct = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError, isLoading]);
   const coloropt = [];
   colorState.forEach((i) => {
@@ -142,6 +145,7 @@ const Addproduct = () => {
       });
     });
     formik.setFieldValue("images", newImages);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imgState]);
 
   const imgshow = productImages?.map((i) => ({
@@ -151,6 +155,7 @@ const Addproduct = () => {
 
   useEffect(() => {
     formik.setFieldValue("color", color ? color : []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [color]);
   const formik = useFormik({
     enableReinitialize: true,

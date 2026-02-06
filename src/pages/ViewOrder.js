@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import { Link, useLocation } from "react-router-dom";
+// import { BiEdit } from "react-icons/bi";
+// import { AiFillDelete } from "react-icons/ai";
+import { useLocation } from "react-router-dom";
 import { getaOrder } from "../features/auth/authSlice";
 
 const columns = [
@@ -36,6 +36,7 @@ const ViewOrder = () => {
 
   useEffect(() => {
     dispatch(getaOrder(orderId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
   const orderState = useSelector((state) => state?.auth?.singleorder?.orders);
@@ -67,7 +68,7 @@ const ViewOrder = () => {
   return (
     <div>
       <h3 className="mb-4 title">View Order</h3>
-      
+
       {/* Order Summary */}
       <div className="row bg-white p-3 mb-3">
         <div className="col-3">
@@ -96,10 +97,10 @@ const ViewOrder = () => {
         <div className="col-md-6">
           <h6>Customer Name:</h6>
           <p>{orderState?.user?.firstname} {orderState?.user?.lastname}</p>
-          
+
           <h6 className="mt-3">Email:</h6>
           <p>{orderState?.user?.email}</p>
-          
+
           <h6 className="mt-3">Mobile:</h6>
           <p>{orderState?.user?.mobile || 'N/A'}</p>
         </div>
@@ -109,7 +110,7 @@ const ViewOrder = () => {
           <p className="mb-1">{orderState?.shippingInfo?.address}</p>
           <p className="mb-1">{orderState?.shippingInfo?.city}, {orderState?.shippingInfo?.state}</p>
           <p className="mb-1">{orderState?.shippingInfo?.country} - {orderState?.shippingInfo?.pincode}</p>
-          
+
           <h6 className="mt-3">Contact Number:</h6>
           <p>{orderState?.shippingInfo?.other || orderState?.user?.mobile}</p>
         </div>

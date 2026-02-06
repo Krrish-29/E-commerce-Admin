@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
+// import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { getOrders, updateAOrder } from "../features/auth/authSlice";
 
@@ -50,6 +50,7 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(getOrders());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const orderState = useSelector((state) => state?.auth?.orders.orders);
