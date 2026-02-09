@@ -5,7 +5,6 @@ import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAProduct, getProducts } from "../features/product/productSlice";
 import { Link } from "react-router-dom";
-import { delImg } from "../features/upload/uploadSlice";
 import CustomModal from "../components/CustomModal";
 const columns = [
   {
@@ -84,14 +83,12 @@ const Productlist = () => {
   }
   const deleteProduct = (e) => {
     dispatch(deleteAProduct(e));
-    dispatch(delImg(e));
 
     setOpen(false);
     setTimeout(() => {
-      dispatch(getProducts());
-    }, 100);
+      window.location.reload();
+    }, 1000);
   };
-  console.log(data1);
   return (
     <div>
       <h3 className="mb-4 title">Products</h3>

@@ -7,14 +7,14 @@ import {
   AiOutlineBgColors,
   AiOutlineLogout,
 } from "react-icons/ai";
-// import { RiCouponLine } from "react-icons/ri";
+import { RiCouponLine } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-// import { ImBlog } from "react-icons/im";
+import { ImBlog } from "react-icons/im";
 import { useSelector } from "react-redux";
-// import { IoIosNotifications } from "react-icons/io";
+import { IoIosNotifications } from "react-icons/io";
 import { FaClipboardList } from "react-icons/fa";
 import { BiCategoryAlt } from "react-icons/bi";
 import { Layout, Menu, theme } from "antd";
@@ -102,29 +102,29 @@ const MainLayout = () => {
               icon: <FaClipboardList className="fs-4" />,
               label: "Orders",
             },
-            // {
-            //   key: "marketing",
-            //   icon: <RiCouponLine className="fs-4" />,
-            //   label: "Marketing",
-            //   children: [
-            //     {
-            //       key: "coupon",
-            //       icon: <ImBlog className="fs-4" />,
-            //       label: "Add Coupon",
-            //     },
-            //     {
-            //       key: "coupon-list",
-            //       icon: <RiCouponLine className="fs-4" />,
-            //       label: "Coupon List",
-            //     },
-            //   ],
-            // },
+            {
+              key: "marketing",
+              icon: <RiCouponLine className="fs-4" />,
+              label: "Marketing",
+              children: [
+                {
+                  key: "coupon",
+                  icon: <ImBlog className="fs-4" />,
+                  label: "Add Coupon",
+                },
+                {
+                  key: "coupon-list",
+                  icon: <RiCouponLine className="fs-4" />,
+                  label: "Coupon List",
+                },
+              ],
+            },
 
-            // {
-            //   key: "enquiries",
-            //   icon: <FaClipboardList className="fs-4" />,
-            //   label: "Enquiries",
-            // },
+            {
+              key: "enquiries",
+              icon: <FaClipboardList className="fs-4" />,
+              label: "Enquiries",
+            },
             {
               key: "signout",
               icon: <AiOutlineLogout className="fs-4" />,

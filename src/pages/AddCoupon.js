@@ -1,7 +1,7 @@
 import { React, useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -20,7 +20,6 @@ let schema = yup.object().shape({
 const AddCoupon = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
   const getCouponId = location.pathname.split("/")[3];
   const newCoupon = useSelector((state) => state.coupon);
 
@@ -53,10 +52,15 @@ const AddCoupon = () => {
   useEffect(() => {
     if (isSuccess && createdCoupon) {
       toast.success("Coupon Added Successfullly!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     }
     if (isSuccess && updatedCoupon) {
       toast.success("Coupon Updated Successfullly!");
-      navigate("/admin/coupon-list");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     }
     if (isError && couponName && couponDiscount && couponExpiry) {
       toast.error("Something Went Wrong!");
@@ -79,7 +83,7 @@ const AddCoupon = () => {
         dispatch(createCoupon(values));
         formik.resetForm();
         setTimeout(() => {
-          dispatch(resetState);
+          dispatch(resetState());
         }, 300);
       }
     },

@@ -4,7 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 
 import MainLayout from "./components/MainLayout";
-// import Enquiries from "./pages/Enquiries";
+import Enquiries from "./pages/Enquiries";
 import Orders from "./pages/Orders";
 import Customers from "./pages/Customers";
 import Colorlist from "./pages/Colotlist";
@@ -13,9 +13,9 @@ import Productlist from "./pages/Productlist";
 import Addcolor from "./pages/Addcolor";
 import Addcat from "./pages/Addcat";
 import Addproduct from "./pages/Addproduct";
-// import Couponlist from "./pages/Couponlist";
-// import AddCoupon from "./pages/AddCoupon";
-// import ViewEnq from "./pages/ViewEnq";
+import Couponlist from "./pages/Couponlist";
+import AddCoupon from "./pages/AddCoupon";
+import ViewEnq from "./pages/ViewEnq";
 import ViewOrder from "./pages/ViewOrder";
 import { OpenRoutes } from "./routing/OpenRoutes";
 import { PrivateRoutes } from "./routing/PrivateRoutes";
@@ -42,11 +42,11 @@ function App() {
           }
         >
           <Route index element={<Dashboard />} />
-          {/* <Route path="enquiries" element={<Enquiries />} />
+          <Route path="enquiries" element={<Enquiries />} />
           <Route path="enquiries/:id" element={<ViewEnq />} />
           <Route path="coupon-list" element={<Couponlist />} />
-          <Route path="coupon" element={<AddCoupon />} /> */}
-          {/* <Route path="coupon/:id" element={<AddCoupon />} /> */}
+          <Route path="coupon" element={<AddCoupon />} />
+          <Route path="coupon/:id" element={<AddCoupon />} />
           <Route path="orders" element={<Orders />} />
           <Route path="order/:id" element={<ViewOrder />} />
           <Route path="customers" element={<Customers />} />

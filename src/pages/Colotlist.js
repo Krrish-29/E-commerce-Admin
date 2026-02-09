@@ -81,8 +81,8 @@ const Colorlist = () => {
 
     setOpen(false);
     setTimeout(() => {
-      dispatch(getColors());
-    }, 100);
+      window.location.reload();
+    }, 1000);
   };
   return (
     <div>

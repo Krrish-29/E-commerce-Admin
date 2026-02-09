@@ -73,8 +73,8 @@ const Categorylist = () => {
     dispatch(deleteAProductCategory(e));
     setOpen(false);
     setTimeout(() => {
-      dispatch(getCategories());
-    }, 100);
+      window.location.reload();
+    }, 1000);
   };
   return (
     <div>

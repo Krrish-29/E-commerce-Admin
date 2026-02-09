@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -36,10 +36,11 @@ const Addproduct = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const getProductId = location.pathname.split("/")[3];
-  const navigate = useNavigate();
   const [color, setColor] = useState([]);
-  // const [images, setImages] = useState([]);
   const [htmlView, setHtmlView] = useState(false);
+  const [files, setFiles] = useState([]); // Store local files
+  const [existingImages, setExistingImages] = useState([]); // Store existing images for edit
+
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getColors());
@@ -48,7 +49,6 @@ const Addproduct = () => {
 
   const catState = useSelector((state) => state.pCategory.pCategories);
   const colorState = useSelector((state) => state.color.colors);
-  const imgState = useSelector((state) => state?.upload?.images);
   const newProduct = useSelector((state) => state.product);
   const {
     isSuccess,
@@ -59,7 +59,6 @@ const Addproduct = () => {
     productName,
     productDesc,
     productPrice,
-    // productBrand,
     productCategory,
     productTag,
     productColors,
@@ -72,22 +71,41 @@ const Addproduct = () => {
       dispatch(getAProduct(getProductId));
     } else {
       dispatch(resetState());
+      setFiles([]);
+      setExistingImages([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getProductId]);
+
+  // Populate existing data for Edit Mode
   useEffect(() => {
-    if (isSuccess && createdProduct) {
-      toast.success("Product Added Successfullly!");
+    if (getProductId && isSuccess && productImages) {
+      setExistingImages(productImages);
+      let colorIds = [];
+      if (productColors && productColors.length > 0) {
+        colorIds = productColors.map((c) => c._id);
+      }
+      formik.setValues({
+        title: productName,
+        description: productDesc,
+        price: productPrice,
+        category: productCategory,
+        tags: productTag,
+        color: colorIds,
+        quantity: productQuantity,
+      });
+      setColor(colorIds || []);
     }
-    if (isSuccess && updatedProduct) {
-      toast.success("Product Updated Successfullly!");
-      navigate("/admin/list-product");
-    }
-    if (isError) {
-      toast.error("Something Went Wrong!");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess, isError, isLoading]);
+  }, [productImages, isSuccess, getProductId]);
+
+
+  // Clean up object URLs to avoid memory leaks
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
+
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
@@ -154,34 +172,88 @@ const Addproduct = () => {
       tags: productTag || "",
       color: productColors || "",
       quantity: productQuantity || "",
-      images: productImages || "",
     },
     validationSchema: schema,
-    onSubmit: (values) => {
-      // Manually construct images array from Redux state to ensure it's up to date
-      const finalImages = imgState.map((i) => ({
-        public_id: i.public_id,
-        url: i.url,
-      }));
+    onSubmit: async (values) => {
+      let uploadedImages = [...existingImages];
 
-      const payload = { ...values, images: finalImages };
+      // Upload new files if any
+      if (files.length > 0) {
+        const formData = new FormData();
+        files.forEach((file) => formData.append("images", file));
+        try {
+          // Dispatch uploadImg and wait for result. 
+          // Note: uploadImg thunk returns the response data on fulfilled.
+          // We need to unwrap or handle the promise to get the actual array of image objects.
+          const resultAction = await dispatch(uploadImg(files));
+          if (uploadImg.fulfilled.match(resultAction)) {
+            uploadedImages = [...uploadedImages, ...resultAction.payload];
+          } else {
+            toast.error("Image upload failed!");
+            return;
+          }
+        } catch (error) {
+          toast.error("Error uploading images");
+          return;
+        }
+      }
+
+      const payload = { ...values, images: uploadedImages, color: color };
 
       if (getProductId !== undefined) {
         const data = { id: getProductId, productData: payload };
         dispatch(updateAProduct(data));
       } else {
         dispatch(createProducts(payload));
-        formik.resetForm();
-        setColor([]);
-        setTimeout(() => {
-          dispatch(resetState());
-          dispatch(uploadResetState()); // Reset upload slice
-        }, 3000);
       }
     },
   });
+
+  useEffect(() => {
+    if (isSuccess && createdProduct) {
+      toast.success("Product Added Successfullly!");
+      formik.resetForm();
+      setColor([]);
+      setFiles([]);
+      setExistingImages([]);
+      dispatch(resetState());
+      dispatch(uploadResetState());
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    }
+    if (isSuccess && updatedProduct) {
+      toast.success("Product Updated Successfullly!");
+      dispatch(resetState());
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess, isError, isLoading, createdProduct, updatedProduct]);
+
   const handleColors = (e) => {
     setColor(e);
+  };
+
+  const handleDrop = (acceptedFiles) => {
+    const newFiles = acceptedFiles.map(file => Object.assign(file, {
+      preview: URL.createObjectURL(file)
+    }));
+    setFiles(prev => [...prev, ...newFiles]);
+  };
+
+  const removeFile = (file) => {
+    setFiles(prev => prev.filter(f => f !== file));
+    URL.revokeObjectURL(file.preview);
+  };
+
+  const removeExistingImage = (public_id) => {
+    setExistingImages(prev => prev.filter(img => img.public_id !== public_id));
+    dispatch(delImg(public_id));
   };
 
   return (
@@ -314,7 +386,7 @@ const Addproduct = () => {
           </div>
           <div className="bg-white border-1 p-5 text-center">
             <Dropzone
-              onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+              onDrop={handleDrop}
             >
               {({ getRootProps, getInputProps }) => (
                 <section>
@@ -329,16 +401,32 @@ const Addproduct = () => {
             </Dropzone>
           </div>
           <div className="showimages d-flex flex-wrap gap-3">
-            {imgState?.map((i, j) => {
+            {/* Display Existing Images */}
+            {existingImages?.map((i, j) => {
               return (
                 <div className=" position-relative" key={j}>
                   <button
                     type="button"
-                    onClick={() => dispatch(delImg(i.public_id))}
+                    onClick={() => removeExistingImage(i.public_id)}
                     className="btn-close position-absolute"
                     style={{ top: "10px", right: "10px" }}
                   ></button>
                   <img src={i.url} alt="" width={200} height={200} />
+                </div>
+              );
+            })}
+
+            {/* Display New Files to be uploaded */}
+            {files?.map((file, j) => {
+              return (
+                <div className=" position-relative" key={j + existingImages.length}>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(file)}
+                    className="btn-close position-absolute"
+                    style={{ top: "10px", right: "10px" }}
+                  ></button>
+                  <img src={file.preview} alt="" width={200} height={200} />
                 </div>
               );
             })}

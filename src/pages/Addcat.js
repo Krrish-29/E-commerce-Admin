@@ -1,7 +1,7 @@
 import { React, useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -18,7 +18,6 @@ const Addcat = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const getPCatId = location.pathname.split("/")[3];
-  const navigate = useNavigate();
   const newCategory = useSelector((state) => state.pCategory);
   const {
     isSuccess,
@@ -39,10 +38,15 @@ const Addcat = () => {
   useEffect(() => {
     if (isSuccess && createdCategory) {
       toast.success("Category Added Successfullly!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     }
     if (isSuccess && updatedCategory) {
       toast.success("Category Updated Successfullly!");
-      navigate("/admin/list-category");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     }
     if (isError) {
       toast.error("Something Went Wrong!");

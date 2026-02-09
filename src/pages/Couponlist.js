@@ -86,8 +86,8 @@ const Couponlist = () => {
 
     setOpen(false);
     setTimeout(() => {
-      dispatch(getAllCoupon());
-    }, 100);
+      window.location.reload();
+    }, 1000);
   };
   return (
     <div>
