@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -36,6 +36,7 @@ const Addproduct = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const getProductId = location.pathname.split("/")[3];
+  const navigate = useNavigate();
   const [color, setColor] = useState([]);
   const [htmlView, setHtmlView] = useState(false);
   const [files, setFiles] = useState([]); // Store local files
@@ -228,6 +229,7 @@ const Addproduct = () => {
       setTimeout(() => {
         window.location.reload();
       }, 3000);
+      navigate("/admin/list-product");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
