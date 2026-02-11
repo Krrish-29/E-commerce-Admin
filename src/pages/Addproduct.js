@@ -97,7 +97,7 @@ const Addproduct = () => {
       });
       setColor(colorIds || []);
     }
-  }, [productImages, isSuccess, getProductId]);
+  }, [productImages, isSuccess, getProductId,formik,productCategory,productColors,productDesc,productName,productPrice,productTag,productQuantity]);
 
 
   // Clean up object URLs to avoid memory leaks

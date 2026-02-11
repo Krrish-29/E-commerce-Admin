@@ -34,7 +34,6 @@ const AddCoupon = () => {
     updatedCoupon,
   } = newCoupon;
 
-  //console.log(couponDiscount, couponName, couponExpiry, getCouponId);
   const changeDateFormet = (date) => {
     const newDate = new Date(date).toLocaleDateString();
     const [month, day, year] = newDate.split("/");
@@ -47,7 +46,7 @@ const AddCoupon = () => {
     } else {
       dispatch(resetState());
     }
-  }, [getCouponId]);
+  }, [getCouponId,dispatch]);
 
   useEffect(() => {
     if (isSuccess && createdCoupon) {
@@ -62,10 +61,10 @@ const AddCoupon = () => {
         window.location.reload();
       }, 3000);
     }
-    if (isError && couponName && couponDiscount && couponExpiry) {
+    if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, isLoading]);
+  }, [isSuccess, isError, createCoupon,updatedCoupon]);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
