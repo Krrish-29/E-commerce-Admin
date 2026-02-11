@@ -97,6 +97,7 @@ const Addproduct = () => {
       });
       setColor(colorIds || []);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productImages, isSuccess, getProductId,formik,productCategory,productColors,productDesc,productName,productPrice,productTag,productQuantity]);
 
 

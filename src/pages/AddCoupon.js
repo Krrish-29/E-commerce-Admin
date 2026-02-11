@@ -26,7 +26,6 @@ const AddCoupon = () => {
   const {
     isSuccess,
     isError,
-    isLoading,
     createdCoupon,
     couponName,
     couponDiscount,
@@ -64,7 +63,7 @@ const AddCoupon = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
-  }, [isSuccess, isError, createCoupon,updatedCoupon]);
+  }, [isSuccess, isError, createCoupon,updatedCoupon,createdCoupon]);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
