@@ -98,7 +98,7 @@ const Addproduct = () => {
       setColor(colorIds || []);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productImages, isSuccess, getProductId,formik,productCategory,productColors,productDesc,productName,productPrice,productTag,productQuantity]);
+  }, [productImages, isSuccess, getProductId,productCategory,productColors,productDesc,productName,productPrice,productTag,productQuantity]);
 
 
   // Clean up object URLs to avoid memory leaks
@@ -155,9 +155,6 @@ const Addproduct = () => {
       value: i._id,
     });
   });
-
-  // Removed useEffect that was trying to sync imgState to formik
-  // We now handle this directly in onSubmit to avoid race conditions with enableReinitialize
 
 
   useEffect(() => {
