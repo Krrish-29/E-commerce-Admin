@@ -24,6 +24,14 @@ const columns = [
     dataIndex: "mobile",
   },
   {
+    title: "Email",
+    dataIndex: "email",
+  },
+  {
+    title: "Contact No.",
+    dataIndex: "contactNo",
+  },
+  {
     title: "Total Amount",
     dataIndex: "amount",
   },
@@ -61,7 +69,9 @@ const Orders = () => {
       key: i + 1,
       orderId: orderState[i]?._id,
       customer: `${orderState[i]?.user?.firstname || ''} ${orderState[i]?.user?.lastname || ''}`.trim() || 'N/A',
-      mobile: orderState[i]?.shippingInfo?.other || orderState[i]?.user?.mobile || 'N/A',
+      mobile: orderState[i]?.user?.mobile || 'N/A',
+      email: orderState[i]?.user?.email || 'N/A',
+      contactNo: orderState[i]?.shippingInfo?.other || 'N/A',
       amount: `Rs. ${orderState[i]?.totalPrice}`,
       amountAfterDiscount: `Rs. ${orderState[i]?.totalPriceAfterDiscount}`,
       date: new Date(orderState[i]?.createdAt).toLocaleString(),
@@ -103,8 +113,8 @@ const Orders = () => {
   return (
     <div>
       <h3 className="mb-4 title">Orders</h3>
-      <div>
-        <Table columns={columns} dataSource={data1} />
+      <div className="w-100" style={{ overflowX: "auto" }}>
+        <Table scroll={{ x: 2000 }} columns={columns} dataSource={data1} />
       </div>
     </div>
   );
