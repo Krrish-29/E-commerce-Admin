@@ -75,19 +75,18 @@ const Orders = () => {
             <BiEdit />
           </Link>
           <select
-            name=""
             defaultValue={orderState[i]?.orderStatus}
+            key={orderState[i]?._id + orderState[i]?.orderStatus}
             onChange={(e) =>
               updateOrderStatus(orderState[i]?._id, e.target.value)
             }
             className="form-control form-select"
-            id=""
           >
-            <option value="Ordered">
-              Ordered
-            </option>
+            <option value="Pending">Pending</option>
             <option value="Out for Delivery">Out for Delivery</option>
             <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Returned">Returned</option>
           </select>
         </>
       ),
@@ -96,6 +95,9 @@ const Orders = () => {
 
   const updateOrderStatus = (a, b) => {
     dispatch(updateAOrder({ id: a, status: b }));
+    setTimeout(() => {
+      dispatch(getOrders());
+    }, 300);
   };
 
   return (
